@@ -1,0 +1,30 @@
+import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
+
+city = input("Abuja: ")
+url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
+
+response = requests.get(url)
+
+if response.status_code == 200:
+    data = response.json()
+    weather = data["weather"][0]["description"]
+    temp = data["main"]["temp"]
+    feels_like = data["main"]["feels_like"]
+    humidity = data["main"]["humidity"]
+    wind_speed = data["wind"]["speed"]
+
+    print(f"\nWeather in {city.title()}: {weather}")
+    print(f"Temperature: {temp}°C")
+    print(f"Feels like: {feels_like}°C")
+    print(f"Humidity: {humidity}%")
+    print(f"Wind Speed: {wind_speed} m/s")
+else:
+    print("\nError fetching weather data. Check city name or API key.")
+
+
+
